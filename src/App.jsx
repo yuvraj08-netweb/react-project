@@ -1,39 +1,19 @@
-import { useState } from "react";
-import Header from "./components/Header";
-import SwitchPage from "./components/SwitchPage";
-import UserData from "./components/UserData";
-import Button from "./components/Button";
-import SearchUserById from "./components/SearchUserById";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
+import View from "./Pages/View";
+import Edit from "./Pages/Edit";
+import NotFound from "./Pages/NotFound";
 
 function App() {
-  const [showData, setShowData] = useState(false);
 
   return (
     <div>
-      <Header />
-      <SwitchPage />
-
-      {showData ? (
-        <Button
-          btnText={"Hide User Data"}
-          btnFn={() => {
-            setShowData(false);
-          }}
-        />
-      ) : (
-        <Button
-          btnText={"Show User Data"}
-          btnFn={() => {
-            setShowData(true);
-          }}
-        />
-      )}
-
-      <SearchUserById />
-
-      {showData ? <UserData /> : ""}
-
-      
+        <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/view" element={<View />} />
+        <Route path="/edit" element={<Edit />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 }

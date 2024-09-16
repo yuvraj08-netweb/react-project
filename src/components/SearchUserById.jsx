@@ -32,7 +32,7 @@ const SearchUserById = () => {
 
   return (
     <>
-      <div className="container max-w-max mx-auto">
+      <div className="container max-w-max mx-auto mt-5">
         <input
           className="border p-1 rounded-xl"
           type="text"

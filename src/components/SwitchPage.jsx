@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../reducers/userSlice";
+import Button from "./Button";
 
 const SwitchPage = () => {
   const dispatch = useDispatch();
@@ -14,12 +15,10 @@ const SwitchPage = () => {
   };
   return (
     <>
-      <button
-        className="border rounded-xl px-5 text-sm py-2 mb-8 font-semibold"
-        onClick={handlePageChange}
-      >
-        Change Page
-      </button>
+      <Button
+        btnText={"Change Page"}
+        btnFn={handlePageChange}
+      />
     </>
   );
 };
