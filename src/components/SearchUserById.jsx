@@ -2,6 +2,7 @@ import Button from "./Button";
 import { getUserById } from "../reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import UserCard from "./UserCard";
 
 const SearchUserById = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const SearchUserById = () => {
       dispatch(getUserById({ id: userId }))
         .unwrap() // To handle promise result and catch errors
         .then((result) => {
-          if (result && result.id) {
+          if (result && result[0].id) {
             setBtnClicked(true);
             setError(null); // Reset error if valid user found
           } else {
@@ -64,45 +65,7 @@ const SearchUserById = () => {
 
         {/* Only show card if valid data is found */}
         {dataById && btnClicked && !error ? (
-          <div className="container mt-10">
-            <div className="card border max-w-max p-3 mx-auto flex items-center">
-              <div className="imageContainer">
-                <img
-                  src={dataById.avatar}
-                  alt="User Avatar"
-                  className="mx-auto"
-                />
-              </div>
-              <div className="info ml-5">
-                <div className="name">
-                  <div className="fname">
-                    <p className="font-medium">
-                      First Name:
-                      <span className="font-normal text-sm">
-                        {dataById.first_name}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="lname">
-                    <p className="font-medium">
-                      Last Name:
-                      <span className="font-normal text-sm">
-                        {dataById.last_name}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="email-Id">
-                  <p className="font-medium">
-                    Email Id:
-                    <span className="font-normal text-sm">
-                      {dataById.email}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+         <UserCard dataById={dataById[0]}/>
         ) : (
           ""
         )}

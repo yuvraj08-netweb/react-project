@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const getUserList = createAsyncThunk(
   "user/getUserList",
-  async ({ page = 1 }, thunkAPI) => {
+  async (thunkAPI) => {
     try {
-      const response = await axios.get("https://reqres.in/api/users", {
-        params: { page },
+      const response = await axios.get(`http://localhost:5000/user`, {
+        params: {},
       });
       if (response.data) {
         return response.data;
@@ -21,20 +21,21 @@ export const getUserById = createAsyncThunk(
   "user/getUserById",
   async ({ id = 1 }, thunkAPI) => {
     try {
-      const response = await axios.get(`https://reqres.in/api/users/${id}`);
+      const response = await axios.get(`http://localhost:5000/user?id=${id}`);
+
       if (response.data) {
-        console.log(response.data.data);
-        return response.data.data;
+        return response.data;
       }
     } catch (error) {
-        if (error.response && error.response.data) {
-            return thunkAPI.rejectWithValue(error.response.data);
-          } else {
-            return thunkAPI.rejectWithValue(error.message); // Handle case where response is undefined
-          }
+      if (error.response && error.response.data) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      } else {
+        return thunkAPI.rejectWithValue(error.message); // Handle case where response is undefined
+      }
     }
   }
 );
+
 
 
 const userSlice = createSlice({
@@ -45,10 +46,11 @@ const userSlice = createSlice({
     loading: false,
     editLoading: false,
     page: 1,
+    showData: false,
   },
   reducers: {
-    setPage: (state, action) => {
-      state.page = action.payload;
+    setShowData: (state, action) => {
+      state.showData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -63,12 +65,19 @@ const userSlice = createSlice({
       .addCase(getUserList.rejected, (state) => {
         state.loading = false;
       })
+      .addCase(getUserById.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(getUserById.fulfilled, (state, action) => {
+        state.loading = false;
         state.dataById = action.payload;
+      })
+      .addCase(getUserById.rejected, (state) => {
+        state.loading = false;
       });
   },
 });
 
-export const { setPage } = userSlice.actions;
+export const {setShowData } = userSlice.actions;
 
 export default userSlice.reducer;

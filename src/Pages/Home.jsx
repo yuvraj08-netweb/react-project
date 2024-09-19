@@ -1,30 +1,31 @@
-import { useState } from "react";
 import Header from "../components/Header";
-import SwitchPage from "../components/SwitchPage";
 import UserData from "../components/UserData";
 import Button from "../components/Button";
 import SearchUserById from "../components/SearchUserById";
+import Footer from "../components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowData } from "../reducers/userSlice";
 
 function Home() {
-  const [showData, setShowData] = useState(false);
+  const { showData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <div>
       <Header />
-      <SwitchPage />
 
       {showData ? (
         <Button
           btnText={"Hide User Data"}
           btnFn={() => {
-            setShowData(false);
+            dispatch(setShowData(false));
           }}
         />
       ) : (
         <Button
           btnText={"Show User Data"}
           btnFn={() => {
-            setShowData(true);
+            dispatch(setShowData(true));
           }}
         />
       )}
@@ -32,6 +33,7 @@ function Home() {
       <SearchUserById />
 
       {showData ? <UserData /> : ""}
+      <Footer />
     </div>
   );
 }

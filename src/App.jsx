@@ -5,10 +5,9 @@ import Edit from "./Pages/Edit";
 import NotFound from "./Pages/NotFound";
 
 function App() {
-
   return (
     <div>
-        <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/view" element={<View />} />
         <Route path="/edit" element={<Edit />} />
