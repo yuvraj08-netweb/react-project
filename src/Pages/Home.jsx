@@ -2,7 +2,6 @@ import Header from "../components/Header";
 import UserData from "../components/UserData";
 import Button from "../components/Button";
 import SearchUserById from "../components/SearchUserById";
-import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowData } from "../reducers/userSlice";
 
@@ -33,7 +32,6 @@ function Home() {
       <SearchUserById />
 
       {showData ? <UserData /> : ""}
-      <Footer />
     </div>
   );
 }

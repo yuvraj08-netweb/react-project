@@ -1,6 +1,14 @@
+import PagesHeader from "../components/PagesHeader";
+import UpdationForm from "../components/UpdationForm"
+
+
 const Edit = () => {
   return (
-    <div>Edit</div>
+    <div>
+      <PagesHeader headerText="Edit User Information"/>
+      <UpdationForm/>
+      {/* <Footer/> */}
+    </div>
   )
 }
 

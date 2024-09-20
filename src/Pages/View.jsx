@@ -1,12 +1,10 @@
 import { useSearchParams } from "react-router-dom";
-import Footer from "../components/Footer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../reducers/userSlice";
 import UserCard from "../components/UserCard";
 import Loader from "../components/Loader";
-import Button from "../components/Button";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import PagesHeader from "../components/PagesHeader";
 
 const View = () => {
   // eslint-disable-next-line no-unused-vars
@@ -22,18 +20,8 @@ const View = () => {
 
   return (
     <div>
-      <div className="mt-6"></div>
-      <Button
-        btnText={
-          <>
-            <ArrowCircleLeftIcon /> Home
-          </>
-        }
-        path={"/"}
-      />
+      <PagesHeader headerText="View User Information" />
       {loading ? <Loader /> : <UserCard dataById={dataById[0]} />}
-
-      <Footer />
     </div>
   );
 };

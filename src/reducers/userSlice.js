@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import axios from "axios";
 
 export const getUserList = createAsyncThunk(
@@ -36,7 +37,42 @@ export const getUserById = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async ({ updatedData }, thunkAPI) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/user/${updatedData?.id}`,
+        updatedData
+      );
 
+      console.log(response);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      } else {
+        return thunkAPI.rejectWithValue(error.message); // Handle case where response is undefined
+      }
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async ({ id }, thunkAPI) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/user/${id}`);
+
+      console.log(response);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      } else {
+        return thunkAPI.rejectWithValue(error.message); // Handle case where response is undefined
+      }
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -78,6 +114,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {setShowData } = userSlice.actions;
+export const { setShowData } = userSlice.actions;
 
 export default userSlice.reducer;

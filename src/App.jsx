@@ -3,16 +3,18 @@ import Home from "./Pages/Home";
 import View from "./Pages/View";
 import Edit from "./Pages/Edit";
 import NotFound from "./Pages/NotFound";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div>
+    <div className="relative min-h-screen">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/view" element={<View />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
