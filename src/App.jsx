@@ -4,6 +4,8 @@ import View from "./Pages/View";
 import Edit from "./Pages/Edit";
 import NotFound from "./Pages/NotFound";
 import Footer from "./components/Footer";
+import Create from "./Pages/Create";
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/view" element={<View />} />
         <Route path="/edit" element={<Edit />} />
+        <Route path="/create_user" element={<Create />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUserList } from "../reducers/userSlice";
 import Button from "./Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserData = () => {
   const dispatch = useDispatch();
@@ -14,8 +16,9 @@ const UserData = () => {
   const deleteUserCall = (id) => {
     if (id) {
       dispatch(deleteUser({ id }))
+        .unwrap()
         .then(() => {
-          console.log("success");
+          toast.success("User Deleted Successfully!")
         })
         .catch(() => {
           console.log("error");
@@ -25,7 +28,7 @@ const UserData = () => {
 
   return (
     <div className="flex justify-center !w-full mt-10 !px-10">
-      <div className="!overflow-x-scroll mb-32">
+      <div className="!overflow-x-scroll sm:mb-32 mb-52">
         <table className="border sm:!w-[90%] !w-full">
           <tbody>
             <tr className="text-left ">
@@ -44,7 +47,7 @@ const UserData = () => {
                 <tr key={idx} className="border">
                   <td className="text-center">{idx + 1}</td>
                   <td>
-                    <img src={item.avatar} alt="User" />
+                    <img src={item.avatar} alt="User" width="128px" />
                   </td>
                   <td className="pl-5">{item.first_name}</td>
                   <td>{item.last_name}</td>
@@ -67,6 +70,7 @@ const UserData = () => {
           </tbody>
         </table>
       </div>
+      <ToastContainer autoClose={1500} position="bottom-right" />
     </div>
   );
 };

@@ -1,22 +1,25 @@
 import Button from "./Button";
-import { getUserById } from "../reducers/userSlice";
+import { getUserByName } from "../reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import UserCard from "./UserCard";
 
-const SearchUserById = () => {
+const SearchByName = () => {
   const dispatch = useDispatch();
-  const [userId, setUserId] = useState("");
+
+  const [userName, setUserName] = useState("");
   const [btnClicked, setBtnClicked] = useState(false);
   const [error, setError] = useState(null); // For error message
-  const { dataById } = useSelector((state) => state.user);
+  const { dataByName } = useSelector((state) => state.user);
 
   const handleSearch = () => {
-    if (userId) {
-      dispatch(getUserById({ id: userId }))
+    if (userName) {
+
+      dispatch(getUserByName({ userName }))
         .unwrap() // To handle promise result and catch errors
         .then((result) => {
-          if (result && result[0].id) {
+
+          if (result && result.length) {
             setBtnClicked(true);
             setError(null); // Reset error if valid user found
           } else {
@@ -25,7 +28,7 @@ const SearchUserById = () => {
           }
         })
         .catch(() => {
-          setError("User Not Found!");
+          setError("Invalid Name");
           setBtnClicked(false);
         });
     }
@@ -37,22 +40,22 @@ const SearchUserById = () => {
         <input
           className="border p-1 rounded-xl"
           type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="Search User By Id (1-12)"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Enter User Name"
         />
 
         <Button
           btnText={"Find User"}
           btnFn={handleSearch}
-          disabled={!userId} // Disable button if userId is empty
+          disabled={!userName} // Disable button if userId is empty
         />
         {btnClicked ? (
           <Button
             btnText={"Clear"}
             btnFn={() => {
               setBtnClicked(false);
-              setUserId("");
+              setUserName("");
               setError(null); // Clear error on reset
             }}
           />
@@ -64,8 +67,8 @@ const SearchUserById = () => {
         {error && <p className="text-red-500 mt-3">{error}</p>}
 
         {/* Only show card if valid data is found */}
-        {dataById && btnClicked && !error ? (
-         <UserCard dataById={dataById}/>
+        {dataByName && btnClicked && !error ? (
+          <UserCard dataById={dataByName} />
         ) : (
           ""
         )}
@@ -74,4 +77,4 @@ const SearchUserById = () => {
   );
 };
 
-export default SearchUserById;
+export default SearchByName;

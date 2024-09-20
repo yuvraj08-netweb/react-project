@@ -1,19 +1,16 @@
-/* eslint-disable no-unused-vars */
+
 import { TextField } from "@mui/material";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Button from "./Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup/src/yup.ts";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserById, setShowData, updateUser } from "../reducers/userSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createUser, setShowData } from "../reducers/userSlice";
 
-const UpdationForm = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams.get("id");
+const AddUserForm = () => {
+
   const dispatch = useDispatch();
-  const { dataById } = useSelector((state) => state.user);
 
   const schema = yup.object().shape({
     first_name: yup.string().required("First Name Is Required !"),
@@ -32,42 +29,28 @@ const UpdationForm = () => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm({
     // defaultValues,
     resolver: yupResolver(schema),
     mode: "onChange",
     defaultValues: {
-      first_name: dataById?.[0]?.first_name,
-      last_name: dataById?.[0]?.last_name,
-      email: dataById?.[0]?.email,
-      avatar: dataById?.[0]?.avatar,
+      first_name: "",
+      last_name: "",
+      email: "",
+      avatar: "",
     },
   });
 
-  useEffect(() => {
-    dispatch(getUserById({ id }));
-  }, [dispatch, id, setValue]);
-
-  useEffect(() => {
-    setValue("first_name", dataById?.[0]?.first_name);
-    setValue("last_name", dataById?.[0]?.last_name);
-    setValue("email", dataById?.[0]?.email);
-    setValue("avatar", dataById?.[0]?.avatar);
-  }, [dataById, setValue]);
-
   const navigation = useNavigate();
+
   const onSubmit = (data) => {
     if (data) {
-      const updatedData = {
-        ...data,
-        id,
-      };
-      dispatch(updateUser({ updatedData }))
+      dispatch(createUser(data))
         .unwrap()
         .then(() => {
           navigation("/");
           dispatch(setShowData(true));
+          
         });
     }
   };
@@ -154,8 +137,9 @@ const UpdationForm = () => {
         </p>
         <Button btnText={"Submit"} btnFn={handleSubmit(onSubmit)} />
       </form>
+
     </div>
   );
 };
 
-export default UpdationForm;
+export default AddUserForm;

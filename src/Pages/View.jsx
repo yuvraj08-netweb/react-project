@@ -5,6 +5,7 @@ import { getUserById } from "../reducers/userSlice";
 import UserCard from "../components/UserCard";
 import Loader from "../components/Loader";
 import PagesHeader from "../components/PagesHeader";
+import NotFound from "./NotFound";
 
 const View = () => {
   // eslint-disable-next-line no-unused-vars
@@ -17,11 +18,18 @@ const View = () => {
   useEffect(() => {
     dispatch(getUserById({ id }));
   }, [dispatch, id]);
+  
 
   return (
     <div>
-      <PagesHeader headerText="View User Information" />
-      {loading ? <Loader /> : <UserCard dataById={dataById[0]} />}
+      {dataById.length ? (
+        <>
+          <PagesHeader headerText="View User Information" />
+          {loading ? <Loader /> : <UserCard dataById={dataById} />}
+        </>
+      ) : (
+        <NotFound />
+      )}
     </div>
   );
 };
